@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+    <script>
+
+        let xS, yS, dS, rS, vS;
+
+        
+
+        function setup() {
+            
+        createCanvas(900, 500);
+        
+        
+        dS = 0.18 * width;       
+        rS = dS / 2;
+        yS = 0.35 * height;      
+        xS = -rS;                 
+        vS = width / 400; 
+        }
+
+        function draw() {
+
+        
+
+            
+  
+        if (xS <= width + rS) {
+    
+        background(135, 206, 235);   
+        } else {
+   
+        background(0);              
+     }
+
+
+        noStroke();
+        fill(20, 120, 40);
+        rect(0, 0.8*height, width, 0.2*height);
+
+                
+        
+        noStroke();
+        fill(255, 210, 0);
+        circle(xS, yS, dS);
+
+        xS = xS + vS;
+
+        if (xS >= 2 * width - rS) {
+        xS = -rS;  
+        }
+    
+        }
+
+
+
+    </script>
+    
+</body>
+</html>
