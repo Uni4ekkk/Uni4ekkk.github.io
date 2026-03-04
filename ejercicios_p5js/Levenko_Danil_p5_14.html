@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <style>
+    body{
+    margin:0;
+    }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+    <script>
+
+        let xS, yS, dS, rS, vS;
+        let xL, yL, dL, rL, vL;
+
+        let day, month, year;
+
+        let xP, yP, S, vP;
+        let groundY, vY, jumpV, g;
+
+        let rHead;
+        let bodyL;
+        let armL;
+        let legL;
+        let hipY = yP - legL;          
+        let shoulderY = hipY - bodyL;  
+        let headY = shoulderY - rHead;
+
+
+
+
+        
+
+        function setup() {
+            
+        createCanvas(600, 800)
+        
+        
+        dS = min(width, height) * 0.20;
+        rS = dS / 2; 
+        xS = -rS;
+        yS = height / 4;                   
+        vS = width / 400; 
+
+        //moon
+        dL = dS * 0.5;
+        rL = dL / 2;
+        xL = -width - rL;
+        yL = height / 3;
+        vL = vS;
+
+
+        day = 1;
+        month = 1;
+        year = 2025;
+
+        groundY = height * 0.8;
+        S = 0.12 * min(width, height);
+        xP = 0.25 * width;
+        yP = groundY;
+
+        vP = width / 150;
+        vY = 0;
+        jumpV = -0.03 * height;
+        g = 0.0016 * height;
+
+        rHead = 0.20 * S;
+        bodyL = 0.60 * S;
+        armL  = 0.45 * S;
+        legL  = 0.55 * S;
+
+        hipY = yP - legL;               
+        shoulderY = hipY - bodyL; 
+        headY = shoulderY - rHead;
+
+
+
+        }
+
+        function draw() {
+
+
+        
+
+        
+
+            
+  
+        if (xS <= width + rS) {
+    
+        background(0, 0, 255); 
+        } else {
+   
+        background(10);              
+     }
+
+
+        noStroke();
+        fill(20, 120, 40); 
+        rect(0, 0.8 * height, width, 0.2 * height);
+                
+        
+        noStroke(); 
+        fill(245, 234, 10); 
+        circle(xS, yS, dS);
+
+        noStroke();
+         fill(200); 
+         circle(xL, yL, dL); 
+
+        
+
+
+        if (keyIsDown(LEFT_ARROW)) {
+        xP = xP - vP;
+        } else if (keyIsDown(RIGHT_ARROW)) {
+        xP = xP + vP;
+        }
+
+
+
+
+        noStroke();
+        if (xS <= width + rS) { 
+        fill(0);    } 
+        else { 
+        fill(255); 
+        }
+        
+
+        if (xS > 2 * width + rS) {
+        xS = -rS;
+        xL = -width - rL;
+        actualizarCalendario(); 
+        }
+        drawStickman()
+       
+
+        
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+        
+        
+
+        
+
+
+
+        xS = xS + vS;
+
+        xL = xL + vL;
+
+       
+
+        
+
+
+
+      
+
+    
+        
+
+
+        noStroke();
+        textSize(20);
+        text("Date: (" + day + ") (" + month + ") (" + year + ")", width - 200, 20);
+ 
+        textSize(14);
+        fill(255);
+        text(xS, 10, 10);
+        text(xL, 10, 28);
+
+        }
+
+    function keyPressed() {
+    if (keyCode === UP_ARROW) {
+        if (yP === groundY) {
+        vY = jumpV;
+    }
+  }
+}
+
+
+    function drawStickman() {
+
+        hipY = yP - legL;               
+        shoulderY = hipY - bodyL; 
+        headY = shoulderY - rHead;
+
+        if (xS <= width + rS) {
+        stroke(0);     
+        fill(0);
+        } else {
+        stroke(255);   
+        fill(255);
+        }
+
+        strokeWeight(0.06 * S);
+
+        circle(xP, headY, 2 * rHead);
+
+        line(xP, shoulderY, xP, hipY);
+
+        line(xP - 0.25*S, shoulderY, xP + 0.25*S, shoulderY);
+        line(xP - 0.25*S, shoulderY, xP - 0.25*S, shoulderY + armL);
+        line(xP + 0.25*S, shoulderY, xP + 0.25*S, shoulderY + armL);
+
+        line(xP, hipY, xP - 0.18*S, yP);
+        line(xP, hipY, xP + 0.18*S, yP);
+
+        vY += g;
+        yP += vY;
+
+        if (yP > groundY) {
+        yP = groundY;
+        vY = 0;
+        }
+
+        if (xP < 0) {
+        xP = 0;
+        }
+        if (xP > width) {
+        xP = width;
+        }
+
+    }
+
+    function actualizarCalendario() {
+
+    day++;
+
+    if (day > 30) {
+        day = 1;
+        month++;
+    }
+
+    if (month > 12) {
+        month = 1;
+        year++;
+    }
+}
+    
+
+
+
+
+    </script>
+    
+</body>
+</html>
