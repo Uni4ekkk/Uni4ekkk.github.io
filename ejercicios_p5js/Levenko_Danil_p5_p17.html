@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { margin: 0; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+</head>
+<body>
+<script>
+
+let xS, yS, dS, rS, vS;
+let xL, yL, dL, rL, vL;
+
+let day, month, year;
+
+let xP, yP, S, vP;
+let groundY, vY, jumpV, g;
+
+let rHead, bodyL, armL, legL;
+let hipY, shoulderY, headY;
+
+let xD, yD, tD, vD;
+let disparoActivo;
+
+let xO, yO, wO, hO, vO;
+
+let puntos;
+
+let xB, yB, wB, hB, vB;
+
+let wP, hP;
+
+let gameOver = false;
+
+
+
+function setup() {
+    createCanvas(600, 800);
+
+
+    dS = min(width, height) * 0.20;
+    rS = dS / 2;
+    xS = -rS;
+    yS = height / 4;
+    vS = width / 400;
+
+    dL = dS * 0.5;
+    rL = dL / 2;
+    xL = -width - rL;
+    yL = height / 3;
+    vL = vS;
+
+    day = 1; month = 1; year = 2026; 
+
+    groundY = height * 0.8;
+    S = 0.12 * min(width, height);
+
+    xP = width * 0.25;
+    yP = groundY;
+    vP = width / 150;
+
+    vY = 0;
+    jumpV = -0.03 * height;
+    g = 0.0016 * height;
+
+    rHead = 0.20 * S;
+    bodyL = 0.60 * S;
+    armL = 0.45 * S;
+    legL = 0.55 * S;
+
+    tD = 0.02 * min(width, height);
+    vD = 0.02 * height;
+    disparoActivo = false;
+
+    wO = 0.10 * width;
+    hO = 0.05 * height;
+    xO = width / 2;
+    yO = height * 0.25;
+    vO = random(2, 5);
+
+    puntos = 0;
+
+   
+    wB = 0.1 * width;
+    hB = 0.05 * height;
+    yB = groundY - hB; 
+  
+    xB = random([ -wB, width ]); 
+    vB = (xB < 0) ? random(2, 5) : -random(2, 5);
+
+    wP = 30;
+    hP = 70;
+}
+
+function draw() {
+
+    if (xS <= width + rS) {
+        background(135, 206, 235); 
+    } else {
+        background(10, 10, 35); 
+    }
+
+  
+    noStroke();
+    fill(20, 120, 40);
+    rect(0, groundY, width, height - groundY);
+
+    
+    fill(245, 234, 10);
+    circle(xS, yS, dS);
+
+  
+    fill(200);
+    circle(xL, yL, dL);
+
+    if (!gameOver) {
+   
+        xS += vS;
+        xL += vL;
+        if (xS > 2 * width + rS) {
+            xS = -rS;
+            xL = -width - rL;
+            actualizarCalendario();
+        }
+
+    
+        xO += vO;
+        if (xO > width) { xO = -wO; vO = random(2, 5); }
+        if (xO < -wO) { xO = width; vO = -random(2, 5); }
+
+    
+        if (disparoActivo) {
+            yD -= vD;
+            if (yD < 0) disparoActivo = false;
+            if (xD >= xO && xD <= xO + wO && yD >= yO && yD <= yO + hO) {
+                disparoActivo = false;
+                puntos++;
+                xO = (vO > 0) ? -wO : width; 
+            }
+        }
+
+        
+        xB += vB;
+   
+        if (xB > width + 100) { 
+            xB = -wB; 
+            vB = random(2, 5); 
+        }
+       
+        if (xB < -wB - 100) { 
+            xB = width; 
+            vB = -random(2, 5); 
+        }
+
+      
+        let stickLeft = xP - wP/2;
+        let stickRight = xP + wP/2;
+        if (stickRight > xB && stickLeft < xB + wB && yP > yB) {
+            gameOver = true;
+        }
+
+     
+        if (keyIsDown(LEFT_ARROW)) xP -= vP;
+        if (keyIsDown(RIGHT_ARROW)) xP += vP;
+        xP = constrain(xP, 0, width); 
+        vY += g;
+        yP += vY;
+        if (yP > groundY) { yP = groundY; vY = 0; }
+    }
+
+    dibujarObjetivo();
+    dibujarBloque();
+    dibujarDisparo();
+    drawStickman();
+    dibujarCalendario();
+
+    if (gameOver) dibujarGameOver();
+}
+
+
+
+function keyPressed() {
+    if (keyCode === UP_ARROW) {
+        if (yP === groundY) vY = jumpV;
+    }
+    if (key === ' ') {
+        if (!disparoActivo) {
+            xD = xP;
+            yD = headY;
+            disparoActivo = true;
+        }
+    }
+}
+
+function drawStickman() {
+    hipY = yP - legL;
+    shoulderY = hipY - bodyL;
+    headY = shoulderY - rHead;
+
+    if (xS <= width + rS) { stroke(0); fill(0); } else { stroke(255); fill(255); }
+    strokeWeight(0.06 * S);
+    circle(xP, headY, 2 * rHead);
+    line(xP, shoulderY, xP, hipY);
+    line(xP - 0.25 * S, shoulderY, xP + 0.25 * S, shoulderY);
+    line(xP - 0.25 * S, shoulderY, xP - 0.25 * S, shoulderY + armL);
+    line(xP + 0.25 * S, shoulderY, xP + 0.25 * S, shoulderY + armL);
+    line(xP, hipY, xP - 0.18 * S, yP);
+    line(xP, hipY, xP + 0.18 * S, yP);
+}
+
+function actualizarCalendario() {
+    day++;
+    if (day > 30) { day = 1; month++; }
+    if (month > 12) { month = 1; year++; }
+}
+
+function dibujarDisparo() {
+    if (disparoActivo) {
+        fill(255, 0, 0); noStroke();
+        circle(xD, yD, tD);
+    }
+}
+
+function dibujarObjetivo() {
+    fill(255, 100, 0);
+    rect(xO, yO, wO, hO);
+}
+
+function dibujarBloque() {
+    fill(0, 200, 200);
+    rect(xB, yB, wB, hB);
+}
+
+function dibujarCalendario() {
+    fill(255); noStroke(); textSize(20);
+    text("Date: " + day + "/" + month + "/" + year, width - 180, 30);
+    text("Score: " + puntos, width - 180, 60);
+}
+
+function dibujarGameOver() {
+    fill(255, 0, 0); textSize(50); textAlign(CENTER, CENTER);
+    text("GAME OVER", width / 2, height / 2 - 30);
+    textSize(30);
+    text("Puntos: " + puntos, width / 2, height / 2 + 30);
+}
+
+</script>
+</body>
+</html>
