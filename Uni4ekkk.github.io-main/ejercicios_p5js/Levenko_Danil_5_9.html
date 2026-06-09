@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mini solar system</title>
+
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+</head>
+
+<body>
+
+<script>
+
+let centerX, centerY, sunSize;
+let earthR, earthD, earthTheta, earthOmega, earthX, earthY;
+let moonR, moonD, moonTheta, moonOmega, moonX, moonY;
+
+function setup() {
+
+  createCanvas(600, 600);
+
+  let k = 0.22;
+
+  //center
+  centerX = width / 2;
+  centerY = height / 2;
+
+  //Sun
+  sunSize = k * min(width, height);
+
+  //Earth
+  earthR = 0.38 * min(width, height);
+  earthD = 0.06 * min(width, height);
+  earthTheta = PI / 2;
+  earthOmega = 0.01;
+
+  //Moon
+  moonR = 0.6 * earthD;
+  moonD = 0.32 * earthD;
+  moonTheta = 0;
+  moonOmega = 0.08;
+}
+
+function draw() {
+
+  background(20);
+
+  //Sun
+  fill(255, 200, 0);
+  circle(centerX, centerY, sunSize);
+
+  //Earth position
+  earthX = centerX + cos(earthTheta) * earthR;
+  earthY = centerY + sin(earthTheta) * earthR;
+
+  fill(100,150,255);
+  circle(earthX, earthY, earthD);
+
+  //Moon position 
+  moonX = earthX + cos(moonTheta) * moonR;
+  moonY = earthY + sin(moonTheta) * moonR;
+
+  fill(240);
+  circle(moonX, moonY, moonD);
+
+  //update angles
+  earthTheta += earthOmega;
+  moonTheta += moonOmega;
+}
+
+</script>
+
+</body>
+</html>

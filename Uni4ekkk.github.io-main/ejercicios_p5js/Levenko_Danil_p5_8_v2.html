@@ -1,0 +1,175 @@
+<!doctotype html>
+<html>
+<head>
+ <meta charset="utf-8" /> <!-- Permite usar acentos y caracteres españoles -->
+    <title>Apuntes p5.js</title> <!-- Nombre que aparecerá en la pestaña del navegador -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+
+<body>
+
+<script>
+//primary variables
+let centerX, centerY;
+let sunSize;
+
+//secondary variables
+let mercuryOrbit, mercurySize, mercuryAngle, mercurySpeed;
+let venusOrbit, venusSize, venusAngle, venusSpeed;
+let earthOrbit, earthSize, earthAngle, earthSpeed;
+let marsOrbit, marsSize, marsAngle, marsSpeed;
+let jupiterOrbit, jupiterSize, jupiterAngle, jupiterSpeed;
+let saturnOrbit, saturnSize, saturnAngle, saturnSpeed;
+let uranusOrbit, uranusSize, uranusAngle, uranusSpeed;
+let neptuneOrbit, neptuneSize, neptuneAngle, neptuneSpeed;
+
+
+//all time drawings
+function setup(){
+
+createCanvas(1000, 1000);
+background(0);
+
+//center values
+centerX = width / 2;
+centerY = height / 2;
+
+//primary object size
+sunSize = 100;
+
+//data of secondary variables
+mercuryOrbit = 140;
+mercurySize = sunSize * 0.08;
+mercuryAngle = 0;
+mercurySpeed = 0.00947;
+
+venusOrbit = 180;
+venusSize = sunSize * 0.22;
+venusAngle = 0;
+venusSpeed = 0.00700;
+
+earthOrbit = 210; 
+earthSize = sunSize * 0.23;
+earthAngle = 0; 
+earthSpeed = 0.00596;
+
+marsOrbit = 240; 
+marsSize = sunSize * 0.1;
+marsAngle = 0;
+marsSpeed = 0.00481;
+
+jupiterOrbit = 300; 
+jupiterSize = sunSize * 0.4; 
+jupiterAngle = 0; 
+jupiterSpeed = 0.00261;
+
+saturnOrbit = 350; 
+saturnSize = sunSize * 0.39; 
+saturnAngle = 0; 
+saturnSpeed = 0.00194;
+
+uranusOrbit = 400; 
+uranusSize = sunSize * 0.3; 
+uranusAngle = 0; 
+uranusSpeed = 0.00136;
+
+neptuneOrbit = 450; 
+neptuneSize = sunSize * 0.29;
+neptuneAngle = 0; 
+neptuneSpeed = 0.00109;
+
+}
+//drawing function that updates 60 times a sec
+function draw() {
+background(0);
+
+//sun
+fill(255, 180, 0)
+circle(centerX, centerY, sunSize);
+
+//other planets speeds and figures
+let venusX = centerX + cos(venusAngle) * venusOrbit;
+let venusY = centerY + sin(venusAngle) * venusOrbit;
+
+fill(230, 200, 140)
+circle(venusX, venusY, venusSize);
+
+venusAngle = venusAngle + venusSpeed;
+
+
+let marsX = centerX + cos(marsAngle) * marsOrbit;
+let marsY = centerY + sin(marsAngle) * marsOrbit;
+
+fill(210, 90, 60)
+circle(marsX, marsY, marsSize);
+
+marsAngle = marsAngle + marsSpeed;
+
+
+let jupiterX = centerX + cos(jupiterAngle) * jupiterOrbit;
+let jupiterY = centerY + sin(jupiterAngle) * jupiterOrbit;
+
+fill(210, 170, 120)
+circle(jupiterX, jupiterY, jupiterSize);
+
+jupiterAngle = jupiterAngle + jupiterSpeed;
+
+
+let saturnX = centerX + cos(saturnAngle) * saturnOrbit;
+let saturnY = centerY + sin(saturnAngle) * saturnOrbit;
+
+fill(220, 200, 150)
+circle(saturnX, saturnY, saturnSize);
+
+saturnAngle = saturnAngle + saturnSpeed;
+
+
+let uranusX = centerX + cos(uranusAngle) * uranusOrbit;
+let uranusY = centerY + sin(uranusAngle) * uranusOrbit;
+
+fill(150, 220, 220)
+circle(uranusX, uranusY, uranusSize);
+
+uranusAngle = uranusAngle + uranusSpeed;
+
+
+let neptuneX = centerX + cos(neptuneAngle) * neptuneOrbit;
+let neptuneY = centerY + sin(neptuneAngle) * neptuneOrbit;
+
+fill(70, 110, 230)
+circle(neptuneX, neptuneY, neptuneSize);
+
+neptuneAngle = neptuneAngle + neptuneSpeed;
+
+
+let earthX = centerX + cos(earthAngle) * earthOrbit;
+let earthY = centerY + sin(earthAngle) * earthOrbit;
+
+fill(70, 130, 200)
+circle(earthX, earthY, earthSize);
+
+earthAngle = earthAngle + earthSpeed;
+
+
+let mercuryX = centerX + cos(mercuryAngle) * mercuryOrbit;
+let mercuryY = centerY + sin(mercuryAngle) * mercuryOrbit;
+
+fill(170, 170, 170)
+circle(mercuryX, mercuryY, mercurySize);
+
+mercuryAngle = mercuryAngle + mercurySpeed;
+
+
+
+
+
+
+
+
+}
+</script>
+
+
+</body>
+</html>
